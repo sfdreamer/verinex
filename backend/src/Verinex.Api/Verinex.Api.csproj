@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Verinex.Api</RootNamespace>
+    <AssemblyName>Verinex.Api</AssemblyName>
+    <UserSecretsId>verinex-api-dev</UserSecretsId>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- OpenAPI：随代码生成接口描述，不维护手写清单（docs/API.md 第 11 章） -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+    <!-- EF Core 10 与 MySQL Provider：版本锁定见 docs/ADR-001-mysql-provider.md -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.14" />
+    <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.14" />
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
+    <!-- 迁移工具：仅设计期使用，不参与运行时输出 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

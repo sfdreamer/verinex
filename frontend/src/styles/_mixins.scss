@@ -1,0 +1,51 @@
+// 可复用排版与布局混入。数值全部引用 _tokens.scss 的 CSS 变量，
+// 断点引用 _breakpoints.scss，避免各处散落魔法数字。
+@use './breakpoints' as *;
+
+@mixin container {
+  width: 100%;
+  max-width: calc(var(--vn-container) + 2 * var(--vn-gutter));
+  margin-inline: auto;
+  padding-inline: var(--vn-gutter);
+}
+
+@mixin section {
+  padding-block: var(--vn-space-24);
+
+  @include below-desktop {
+    padding-block: var(--vn-space-16);
+  }
+
+  @include below-tablet {
+    padding-block: var(--vn-space-12);
+  }
+}
+
+// 「— SOLUTIONS」式栏目标签：短横线 + 大写 + 宽字距
+@mixin eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vn-space-2);
+  font-size: var(--vn-fs-overline);
+  font-weight: var(--vn-fw-semibold);
+  letter-spacing: var(--vn-ls-overline);
+  text-transform: uppercase;
+}
+
+@mixin focus-ring($color: var(--vn-accent)) {
+  outline: 2px solid $color;
+  outline-offset: 3px;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

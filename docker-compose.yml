@@ -1,0 +1,112 @@
+name: verinex
+
+# VERINEX 官网本地/生产同构编排（docs/ARCHITECTURE.md 13）：
+#   web   Nginx + Vue 构建产物，/api 同源反代
+#   api   ASP.NET Core 10 Web API
+#   mysql MySQL 8.4 LTS，仅容器网络内可达，不映射宿主机端口
+#
+# 使用前：cp .env.example .env 并设置真实口令；口令不进入仓库。
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-verinex}
+      MYSQL_USER: ${MYSQL_USER:-verinex}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?set MYSQL_PASSWORD in .env}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+00:00
+    volumes:
+      - mysql-data:/var/lib/mysql
+    # 安全要求（docs/DATABASE.md 9）：数据库端口不直接暴露，仅在网络内部互通。
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    networks:
+      - verinex
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      # 本地首次启动默认自动应用已审查 Migration；生产环境必须显式设为 false，
+      # 并在备份与人工确认后单独执行迁移（见 README.md）。
+      Database__InitializeOnStartup: "${DATABASE_INITIALIZE_ON_STARTUP:-true}"
+      # sitemap.xml 与 canonical 使用的对外地址；生产必须覆盖为正式域名。
+      Site__PublicBaseUrl: "${SITE_PUBLIC_BASE_URL:-http://localhost:8081}"
+      ConnectionStrings__Default: "Server=mysql;Port=3306;Database=${MYSQL_DATABASE:-verinex};User Id=${MYSQL_USER:-verinex};Password=${MYSQL_PASSWORD};SslMode=Preferred;"
+    ports:
+      # 仅绑定回环地址，供本地开发与联调（vite 代理 / healthcheck 验证），不对公网开放。
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      # ASP.NET 运行时镜像已有 bash；用 TCP 发出真实 HTTP 请求，避免为探针额外安装 curl。
+      test:
+        - CMD
+        - bash
+        - -c
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/8080;
+          printf 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3;
+          grep -q 'HTTP/1.1 200' <&3
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - verinex
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8081}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      # 同时验证 Nginx、同源反代和 API/数据库就绪状态。
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    networks:
+      - verinex
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    # 本地管理隧道：配置与凭证在宿主机 ~/.cloudflared（verinex.yml + <tunnel-id>.json），只读挂载，不入库。
+    command: tunnel --no-autoupdate --config /etc/cloudflared/verinex.yml run
+    volumes:
+      - ${USERPROFILE:-~}/.cloudflared:/etc/cloudflared:ro
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - verinex
+
+volumes:
+  mysql-data:
+
+networks:
+  verinex:
+    driver: bridge

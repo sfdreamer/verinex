@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-ssr
+.vite
+
+# 本地环境与密钥
+.env
+.env.local
+.env.*.local
+
+# 测试与日志产物
+playwright-report
+test-results
+*.log
+
+.git
+.gitignore

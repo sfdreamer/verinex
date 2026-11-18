@@ -1,0 +1,135 @@
+// 全站样式入口：令牌 → 重置 → 基础排版 → 通用工具类。
+// 组件级样式写在各自的 <style scoped lang="scss"> 中，这里只保留全局规则。
+@use './tokens';
+@use './reset';
+@use './breakpoints' as *;
+@use './mixins' as *;
+
+html {
+  background-color: var(--vn-dark);
+}
+
+body {
+  font-family: var(--vn-font-sans);
+  font-size: var(--vn-fs-body);
+  font-weight: var(--vn-fw-regular);
+  line-height: var(--vn-lh-body);
+  color: var(--vn-text);
+  background-color: var(--vn-page);
+  // 防御性设置：任何子元素意外超宽都不产生横向滚动条。
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: var(--vn-lh-heading);
+  letter-spacing: var(--vn-ls-tight);
+  font-weight: var(--vn-fw-semibold);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  background: var(--vn-brand);
+  color: var(--vn-on-brand);
+}
+
+.container {
+  @include container;
+}
+
+.section {
+  @include section;
+}
+
+.eyebrow {
+  @include eyebrow;
+  color: var(--vn-link);
+
+  &--on-dark {
+    color: var(--vn-accent);
+  }
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+
+// 跳转到主内容（键盘用户首个焦点）
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 200;
+  transform: translate(-50%, -120%);
+  padding: var(--vn-space-3) var(--vn-space-5);
+  border-radius: 0 0 var(--vn-radius-sm) var(--vn-radius-sm);
+  background: var(--vn-brand);
+  color: var(--vn-on-brand);
+  font-size: var(--vn-fs-sm);
+  font-weight: var(--vn-fw-semibold);
+  transition: transform var(--vn-duration) var(--vn-ease-out);
+
+  &:focus-visible {
+    transform: translate(-50%, 0);
+    outline-offset: -4px;
+  }
+}
+
+// Editorial pilot: content stays fully legible before any scroll interaction.
+.editorial-kicker {
+  color: var(--vn-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .1em;
+}
+.editorial-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 12px;
+  background: var(--vn-accent);
+  vertical-align: 2px;
+}
+.editorial-title {
+  font-size: clamp(30px, 2.8vw, 42px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -.035em;
+  white-space: pre-line;
+}
+.editorial-section { padding-block: 80px; }
+.editorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--vn-text);
+  transition: color .2s;
+}
+.editorial-link span { color: var(--vn-text-secondary); font-size: 20px; }
+.editorial-link:hover { color: var(--vn-link); }
+.home-empty { color: var(--vn-text-secondary); padding-block: 40px; }
+@media (max-width: 767px) {
+  .editorial-section { padding-block: 48px; }
+  .editorial-title { font-size: 30px; }
+}
+
+// Editorial inner pages: type and rhythm, individual compositions live in each view.
+.editorial-page { background: var(--vn-page); }
+.page-title { font-size: clamp(40px, 4.8vw, 68px); font-weight: 500; letter-spacing: -.045em; line-height: 1.14; white-space: pre-line; }
+.page-deck { font-size: 18px; line-height: 1.8; color: var(--vn-text-secondary); max-width: 600px; }
+.ledger-number { font-family: var(--vn-font-mono); font-size: 13px; color: var(--vn-text-muted); }
+@media(max-width: 767px) { .page-title { font-size: 38px; } .page-deck { font-size: 16px; } }

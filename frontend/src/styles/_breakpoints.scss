@@ -1,0 +1,49 @@
+// 响应式断点：以设计稿 1440 桌面稿为基准，验收视口 1440 / 768 / 390。
+$bp-xl: 1440px; // 设计稿画板宽度
+$bp-lg: 1200px; // 完整一级导航的临界宽度（低于此值切换为汉堡菜单）
+$bp-md: 768px; // 平板
+
+@mixin above($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin below($width) {
+  @media (max-width: ($width - 0.02px)) {
+    @content;
+  }
+}
+
+// 桌面完整导航
+@mixin desktop-nav {
+  @include above($bp-lg) {
+    @content;
+  }
+}
+
+// 平板：768–1199，导航折叠为抽屉
+@mixin tablet {
+  @media (min-width: $bp-md) and (max-width: ($bp-lg - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin below-desktop {
+  @include below($bp-lg) {
+    @content;
+  }
+}
+
+@mixin below-tablet {
+  @include below($bp-md) {
+    @content;
+  }
+}
+
+// 尊重系统「减少动态效果」设置
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# sitemap.xml 由后端依据已发布内容生成，随前端同域发布。
+Sitemap: https://www.verinex.ai/sitemap.xml

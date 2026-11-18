@@ -1,0 +1,18 @@
+bin
+obj
+.vs
+.vscode
+.idea
+
+# 本地配置与密钥
+appsettings.Production.json
+appsettings.*.local.json
+.env
+*.user
+
+# 测试与日志产物
+TestResults
+*.log
+
+.git
+.gitignore

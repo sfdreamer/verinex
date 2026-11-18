@@ -1,0 +1,18 @@
+<Project>
+
+  <!--
+    后端公共编译设置。版本与目标框架集中在此，避免各项目漂移。
+    技术基线：ASP.NET Core 10 / EF Core 10 / MySQL（见 docs/ARCHITECTURE.md 第 4 章）。
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+</Project>

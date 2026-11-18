@@ -1,0 +1,157 @@
+// Premium Dark design system — authorized visual upgrade, 2026-11-18.
+// Phase 2: 1360px content area plus fluid gutters; single 80px navigation.
+:root {
+  color-scheme: dark;
+  --vn-page: #070c15;
+  --vn-secondary: #0b1524;
+  --vn-card: #101f33;
+  --vn-card-hover: #172d49;
+  --vn-link: #85b7ff;
+  --vn-panel: linear-gradient(145deg, #12233a, #0e1c2e);
+  --vn-section: linear-gradient(180deg, #070d18, #0b192b 48%, #070d18);
+  --vn-section-soft: radial-gradient(ellipse at 80% 50%, rgba(52,127,229,.055), transparent 65%), linear-gradient(180deg, #070d18, #091426 50%, #070d18);
+
+  // ---------- 品牌色 ----------
+  // 品牌渐变取色：Logo 与主按钮 linear-gradient rgb(52,127,229) → rgb(57,198,232)
+  --vn-brand: #4b91f2;
+  --vn-brand-hover: #438ff5;
+  --vn-brand-active: #3f83df;
+  --vn-on-brand: #070c15;
+  --vn-brand-soft: rgba(52, 127, 229, 0.12);
+  --vn-accent: #45c5dc;
+  --vn-brand-gradient: linear-gradient(135deg, #347fe5, #2866bd);
+
+  // ---------- 深色表面（首屏、Header、Footer）----------
+  --vn-dark: #070d18; // Footer / 顶栏底色
+  --vn-dark-2: #091426; // 首屏主背景
+  --vn-dark-3: #122640; // 深色卡片
+  --vn-dark-border: rgba(130, 165, 205, 0.14);
+
+  // ---------- 内容表面（深色）----------
+  --vn-white: #ffffff;
+  --vn-surface: #0b192b;
+  --vn-surface-tint: #0d1d32;
+  --vn-border: rgba(130, 165, 205, 0.14);
+  --vn-border-strong: rgba(130, 165, 205, 0.32);
+
+  // ---------- 文字 ----------
+  --vn-text: #f3f6fc;
+  --vn-text-secondary: #a6b6ca;
+  --vn-text-muted: #8fa4bd;
+  --vn-text-inverse: #f2f6fc;
+  --vn-text-inverse-secondary: #c2d0e0;
+  --vn-text-inverse-muted: #8fa4bd;
+
+  // ---------- 状态色 ----------
+  --vn-success: #2fa36b;
+  --vn-warning: #d99a1e;
+  --vn-danger: #e5484d;
+  --vn-info: #347fe5;
+
+  // ---------- 字体 ----------
+  // 设计稿文字已转为轮廓路径，无法读取字体族；按设计观感使用系统几何无衬线栈，
+  // 有正式字体授权后替换 --vn-font-sans 即可，其它令牌无需改动。
+  --vn-font-sans: 'Inter', 'Space Grotesk', 'HarmonyOS Sans SC', 'Noto Sans SC', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --vn-font-mono: 'SFMono-Regular', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  // ---------- 字号 / 行高 ----------
+  --vn-fs-display: clamp(3rem, 4.6vw, 4.75rem); // 64px 首屏主标题
+  --vn-fs-h1: clamp(2.5rem, 3.6vw, 3.75rem); // 48px 内页主标题
+  --vn-fs-h2: clamp(2rem, 2.6vw, 2.75rem); // 40px 区块标题
+  --vn-fs-h3: 1.5rem; // 24px 卡片标题
+  --vn-fs-h4: 1.25rem; // 20px
+  --vn-fs-lead: 1.125rem; // 18px 副标题
+  --vn-fs-body: 1rem; // 16px 正文
+  --vn-fs-sm: 0.875rem; // 14px 导航 / 辅助
+  --vn-fs-xs: 0.75rem; // 12px 标签
+  --vn-fs-overline: 0.75rem; // 12px 栏目标签（大写 + 字距）
+
+  --vn-lh-tight: 1.1;
+  --vn-lh-heading: 1.2;
+  --vn-lh-snug: 1.45;
+  --vn-lh-body: 1.7;
+
+  --vn-ls-tight: -0.02em; // 大标题
+  --vn-ls-normal: 0;
+  --vn-ls-wide: 0.08em;
+  --vn-ls-overline: 0.18em; // 「— SOLUTIONS」类栏目标签
+
+  --vn-fw-regular: 400;
+  --vn-fw-medium: 500;
+  --vn-fw-semibold: 600;
+  --vn-fw-bold: 700;
+
+  // ---------- 间距（4px 基准）----------
+  --vn-space-1: 0.25rem; // 4
+  --vn-space-2: 0.5rem; // 8
+  --vn-space-3: 0.75rem; // 12
+  --vn-space-4: 1rem; // 16
+  --vn-space-5: 1.25rem; // 20
+  --vn-space-6: 1.5rem; // 24
+  --vn-space-8: 2rem; // 32
+  --vn-space-10: 2.5rem; // 40
+  --vn-space-12: 3rem; // 48
+  --vn-space-16: 4rem; // 64
+  --vn-space-20: 5rem; // 80
+  --vn-space-24: 6rem; // 96
+  --vn-space-30: 7.5rem; // 120
+
+  // ---------- 圆角 ----------
+  --vn-radius-xs: 4px;
+  --vn-radius-sm: 8px; // 按钮、语言切换
+  --vn-radius-md: 12px;
+  --vn-radius-lg: 20px; // 卡片
+  --vn-radius-xl: 24px; // 大面板
+  --vn-radius-pill: 999px;
+
+  // ---------- 阴影 ----------
+  --vn-shadow-sm: 0 1px 2px rgba(10, 26, 46, 0.06);
+  --vn-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --vn-shadow-lg: 0 24px 64px rgba(7, 20, 38, 0.16);
+  --vn-shadow-brand: 0 6px 22px rgba(26, 79, 153, 0.22);
+
+  // ---------- 布局 ----------
+  // 内容最大宽度不含自适应左右边距
+  --vn-container: 1360px;
+  --vn-gutter: clamp(24px, 2.78vw, 48px);
+  --vn-header-height: 5rem;
+  --vn-utility-height: 0rem;
+  --vn-header-total: 5rem;
+
+  // ---------- 动效 ----------
+  --vn-duration-fast: 120ms;
+  --vn-duration: 240ms;
+  --vn-duration-slow: 320ms;
+  --vn-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --vn-ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+// Latin glyphs use a native Latin family before CJK fallback; no external font request.
+html:lang(en) {
+  --vn-font-sans: 'Inter', 'Helvetica Neue', 'Segoe UI', Arial, 'Noto Sans SC', sans-serif;
+}
+
+// 平板：768–1199（设计稿未提供，按 PRD 12.2 适配）
+@media (max-width: 1199.98px) {
+  :root {
+    --vn-gutter: 2.5rem; // 40px
+    --vn-fs-display: 3rem; // 48px
+    --vn-fs-h1: 2.5rem; // 40px
+    --vn-fs-h2: 2rem; // 32px
+  }
+}
+
+// 移动端：< 768（验收视口 390）
+@media (max-width: 767.98px) {
+  :root {
+    --vn-gutter: 1.25rem; // 20px
+    --vn-fs-display: 2.125rem; // 34px
+    --vn-fs-h1: 1.875rem; // 30px
+    --vn-fs-h2: 1.625rem; // 26px
+    --vn-fs-h3: 1.25rem; // 20px
+    --vn-fs-lead: 1rem; // 16px
+    --vn-header-height: 4rem; // 64px
+    --vn-header-total: 4rem; // 移动端不显示顶栏
+  }
+}

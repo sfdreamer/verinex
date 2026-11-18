@@ -1,0 +1,36 @@
+{
+  "name": "verinex-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "VERINEX TECHNOLOGIES official website frontend",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build && node scripts/prerender.mjs",
+    "build:only": "vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "vue-tsc -b --force",
+    "test:e2e": "playwright test",
+    "build:spa": "vite build",
+    "prerender": "node scripts/prerender.mjs"
+  },
+  "dependencies": {
+    "axios": "1.21.1",
+    "pinia": "3.0.4",
+    "vue": "3.5.45",
+    "vue-i18n": "11.4.21",
+    "vue-router": "4.6.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@types/node": "^22.20.5",
+    "@vitejs/plugin-vue": "6.0.11",
+    "sass": "1.108.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.8",
+    "vue-tsc": "3.3.14"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
