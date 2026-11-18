@@ -4,7 +4,7 @@ VERINEX 企业官网 MVP。项目采用 Vue 3 + TypeScript 构建响应式双语
 
 > 项目当前处于建设阶段。仓库内产品状态均为 `PLANNED`，示例文章仅用于展示网站结构，不代表已发布产品、客户项目或正式研究结论。
 
-![VERINEX 首页预览](frontend/output/fullpage-20261118/home.png)
+![VERINEX 首页预览](frontend/output/fullpage-20261118/home-fullpage.png)
 
 ## 项目特性
 
